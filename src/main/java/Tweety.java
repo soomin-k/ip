@@ -84,7 +84,7 @@ public class Tweety {
 
                 Task addedTask = tasks[taskCount];
                 System.out.println("     ____________________________________________________________");
-                System.out.println("     " + "Got it. I've added this task: ");
+                System.out.println("     " + "Got it. I've added this task:");
                 System.out.println("          " + addedTask.toString());
                 System.out.println("     " + "Now you have " + (taskCount + 1) + " tasks in the list");
                 System.out.println("     ____________________________________________________________");
