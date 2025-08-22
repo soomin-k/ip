@@ -8,4 +8,12 @@ mark 3
 list
 unmark 1
 list
+todo
+event
+event /from 2pm
+deadline
+deadline by 2pm
+invalid command
+mark e
+unmark e
 bye

@@ -56,5 +56,34 @@
      4. [E][ ] team meeting (from: Mon 2pm to: 4pm)
      ____________________________________________________________
      ____________________________________________________________
+     Todo description cannot be empty.
+     Please follow this format: e.g. todo borrow book
+     ____________________________________________________________
+     ____________________________________________________________
+     Event description cannot be empty.
+     Please follow this format: e.g. event project meeting /from Mon 2pm /to 4pm
+     ____________________________________________________________
+     ____________________________________________________________
+     Event description is of invalid format.
+     Please follow this format: e.g. event project meeting /from Mon 2pm /to 4pm
+     ____________________________________________________________
+     ____________________________________________________________
+     Deadline description cannot be empty.
+     Please follow this format: e.g. deadline borrow book /by Sunday
+     ____________________________________________________________
+     ____________________________________________________________
+     Deadline description is of invalid format.
+     Please follow this format: e.g. deadline borrow book /by Sunday
+     ____________________________________________________________
+     ____________________________________________________________
+     Invalid command. Please try again.
+     ____________________________________________________________
+     ____________________________________________________________
+     Invalid command format. Please specify a valid task number.
+     ____________________________________________________________
+     ____________________________________________________________
+     Invalid command format. Please specify a valid task number.
+     ____________________________________________________________
+     ____________________________________________________________
      Bye. Hope to see you again soon!
      ____________________________________________________________
