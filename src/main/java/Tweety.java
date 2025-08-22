@@ -1,10 +1,11 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Tweety {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in); // define scanner to read user inputs
-        Task[] tasks = new Task[100]; // storage for array of tasks that get created
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>(); // storage for array of tasks that get created
+        int taskCount = 0; // keep track of the number of tasks
 
         System.out.println("     ____________________________________________________________");
         System.out.println("     Hello! I'm Tweety");
@@ -12,15 +13,15 @@ public class Tweety {
         System.out.println("     ____________________________________________________________");
 
         while (true) {
-            String userInput = sc.nextLine();
+            String userInput = sc.nextLine(); // read the input
 
             try {
                 if (userInput.startsWith("mark")) {
-                    int taskNumber = getTaskNumber(userInput);
-                    if (taskNumber > taskCount || taskNumber <= 0) {
+                    int taskNumber = getTaskNumber(userInput); // read the task number specified by the user
+                    if (taskNumber <= 0 || taskNumber - 1 >= taskCount) {
                         throw new TweetyException("Please provide a valid task number.");
                     } else {
-                        Task task = tasks[taskNumber - 1];
+                        Task task = tasks.get(taskNumber - 1);
                         task.markAsDone();
                         System.out.println("     ____________________________________________________________");
                         System.out.println("     Nice! I've marked this task as done:");
@@ -29,24 +30,36 @@ public class Tweety {
                     }
                 } else if (userInput.startsWith("unmark")) {
                     int taskNumber = getTaskNumber(userInput);
-                    if (taskNumber > taskCount || taskNumber <= 0) {
+                    if (taskNumber <= 0 || taskNumber - 1 >= taskCount) {
                         throw new TweetyException("Please provide a valid task number.");
                     } else {
-                        Task task = tasks[taskNumber - 1];
+                        Task task = tasks.get(taskNumber - 1);
                         task.unmark();
                         System.out.println("     ____________________________________________________________");
                         System.out.println("     OK, I've marked this task as not done yet:");
                         System.out.println("          " + task.getStatusIcon() + " " + task.getDescription());
                         System.out.println("     ____________________________________________________________");
                     }
+                } else if (userInput.startsWith("delete")) {
+                    int taskNumber = getTaskNumber(userInput);
+                    if (taskNumber <= 0 || taskNumber - 1 >= taskCount) {
+                        throw new TweetyException("Please provide a valid task number.");
+                    } else {
+                        Task task = tasks.get(taskNumber - 1);
+                        tasks.remove(taskNumber - 1);
+                        taskCount--; // update taskCount accordingly
+                        System.out.println("     ____________________________________________________________");
+                        System.out.println("     Noted. I've removed this task:");
+                        System.out.println("          " + task.toString());
+                        System.out.println("     Now you have " + taskCount + " tasks in the list.");
+                        System.out.println("     ____________________________________________________________");
+                    }
                 } else if (userInput.equals("list")) {
-                    int index = 0;
                     System.out.println("     ____________________________________________________________");
                     System.out.println("     Here are the tasks in your list:");
-                    while (tasks[index] != null) {
-                        Task currTask = tasks[index];
-                        System.out.println("     " + (index + 1) + ". " + currTask.toString());
-                        index++;
+                    for (int i = 0; i < taskCount; i++) {
+                        Task currTask = tasks.get(i);
+                        System.out.println("     " + (i + 1) + ". " + currTask.toString());
                     }
                     System.out.println("     ____________________________________________________________");
                 } else if (userInput.equals("bye")) {
@@ -55,14 +68,12 @@ public class Tweety {
                     System.out.println("     ____________________________________________________________");
                     break;
                 } else {
-                    if (taskCount >= 100) {
-                        throw new TweetyException("Task list is full. you cannot add more tasks.");
-                    }
                     if (userInput.startsWith("event")) {
-                        if (userInput.length() <= 5) {
+                        if (userInput.length() <= 5) { // if the user input no description of event throw exception
                             throw new TweetyException("Event description cannot be empty.\n" +
                                     "     Please follow this format: e.g. event project meeting /from Mon 2pm /to 4pm");
                         }
+                        // logic to obtain the relevant info used in creating new event
                         String[] parts = userInput.substring(5).split("/from|/to");
                         if (parts[0].trim().isEmpty() || !userInput.contains("/from") || !userInput.contains("/to")) {
                             throw new TweetyException("Event description is of invalid format.\n" +
@@ -71,7 +82,7 @@ public class Tweety {
                             String description = parts[0].trim();
                             String from = parts[1].trim();
                             String to = parts[2].trim();
-                            tasks[taskCount] = new Event(description, from, to);
+                            tasks.add(new Event(description, from, to));
                         }
                     } else if (userInput.startsWith("todo")) {
                         String description = userInput.substring(4).trim();
@@ -79,7 +90,7 @@ public class Tweety {
                             throw new TweetyException("Todo description cannot be empty.\n" +
                                     "     Please follow this format: e.g. todo borrow book");
                         }
-                        tasks[taskCount] = new ToDo(description);
+                        tasks.add(new ToDo(description));
                     } else if (userInput.startsWith("deadline")) {
                         if (userInput.length() <= 8) {
                             throw new TweetyException("Deadline description cannot be empty.\n" +
@@ -92,12 +103,12 @@ public class Tweety {
                         }
                         String description = parts[0].trim();
                         String by = parts[1].trim();
-                        tasks[taskCount] = new Deadline(description, by);
+                        tasks.add(new Deadline(description, by));
                     } else {
                         throw new TweetyException("Invalid command. Please try again.");
                     }
 
-                    Task addedTask = tasks[taskCount];
+                    Task addedTask = tasks.get(taskCount);
                     if (addedTask != null) {
                         System.out.println("     ____________________________________________________________");
                         System.out.println("     " + "Got it. I've added this task:");

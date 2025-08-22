@@ -15,5 +15,11 @@ deadline
 deadline by 2pm
 invalid command
 mark e
+mark 6
 unmark e
+unmark 0
+delete 1
+list
+delete 0
+delete e
 bye
