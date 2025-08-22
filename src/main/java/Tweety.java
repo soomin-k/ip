@@ -3,8 +3,8 @@ import java.util.Scanner;
 public class Tweety {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in); // define scanner to read user inputs
-        Task[] tasks = new Task[100];
-        int i = 0;
+        Task[] tasks = new Task[100]; // storage for array of tasks that get created
+        int taskCount = 0;
 
         System.out.println("     ____________________________________________________________");
         System.out.println("     Hello! I'm Tweety");
@@ -20,7 +20,7 @@ public class Tweety {
                     continue;
                 }
 
-                if (taskNumber > i || taskNumber <= 0) {
+                if (taskNumber > taskCount || taskNumber <= 0) {
                     invalidTask();
                 } else {
                     Task task = tasks[taskNumber - 1];
@@ -33,7 +33,7 @@ public class Tweety {
 
             } else if (userInput.startsWith("unmark")) {
                 int taskNumber = getTaskNumber(userInput);
-                if (taskNumber > i || taskNumber <= 0) {
+                if (taskNumber > taskCount || taskNumber <= 0) {
                     invalidTask();
                 } else {
                     Task task = tasks[taskNumber - 1];
@@ -49,7 +49,7 @@ public class Tweety {
                 System.out.println("     Here are the tasks in your list:");
                 while (tasks[index] != null) {
                     Task currTask = tasks[index];
-                    System.out.println("     " + (index + 1) + ". " + currTask.getStatusIcon() + " " + currTask.getDescription());
+                    System.out.println("     " + (index + 1) + ". " + currTask.toString());
                     index++;
                 }
                 System.out.println("     ____________________________________________________________");
@@ -59,11 +59,36 @@ public class Tweety {
                 System.out.println("     ____________________________________________________________");
                 break;
             } else {
-                tasks[i] = new Task(userInput);
+
+                if (userInput.startsWith("event")) {
+                    String[] parts = userInput.substring(6).split("/from|/to");
+                    if (parts.length < 3 || parts[0].trim().isEmpty()) {
+                            System.out.println("     ____________________________________________________________");
+                            System.out.println("     OOPS!!! Invalid event format.");
+                            System.out.println("     ____________________________________________________________");
+                    } else {
+                            String description = parts[0].trim();
+                            String from = parts[1].trim();
+                            String to = parts[2].trim();
+                            tasks[taskCount] = new Event(description, from, to);
+                    }
+                } else if (userInput.startsWith("todo")) {
+                    String description = userInput.substring(5).trim();
+                    tasks[taskCount] = new ToDo(description);
+                } else if (userInput.startsWith("deadline")) {
+                    String[] parts = userInput.substring(9).split("/by", 2);
+                    String description = parts[0].trim();
+                    String by = parts[1].trim();
+                    tasks[taskCount] = new Deadline(description, by);
+                }
+
+                Task addedTask = tasks[taskCount];
                 System.out.println("     ____________________________________________________________");
-                System.out.println("     " + "added: " + userInput);
+                System.out.println("     " + "Got it. I've added this task: ");
+                System.out.println("          " + addedTask.toString());
+                System.out.println("     " + "Now you have " + (taskCount + 1) + " tasks in the list");
                 System.out.println("     ____________________________________________________________");
-                i++;
+                taskCount++;
             }
         }
 
