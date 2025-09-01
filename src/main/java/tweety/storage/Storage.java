@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import tweety.exceptions.TweetyException;
 import tweety.tasks.Deadline;
 import tweety.tasks.Event;
 import tweety.tasks.Task;
@@ -18,8 +19,8 @@ import tweety.tasks.ToDo;
  * Handles storage operations for tasks such as saving to and loading from file.
  */
 public class Storage {
-    private static final String FILE_PATH = "./data/Tweety.txt";
-    private static final String DIRECTORY_PATH = "./data";
+    private static final Path FILE_PATH = Paths.get("data/Tweety.txt");
+    private static final Path DIRECTORY_PATH = Paths.get("data/");
 
     /**
      * Checks if directory for the storage file exists.
@@ -27,9 +28,8 @@ public class Storage {
      * @throws IOException if no storage file exists in the directory path
      */
     private static void ensureDirectoryExists() throws IOException {
-        Path path = Paths.get(DIRECTORY_PATH);
-        if (!Files.exists(path)) {
-            Files.createDirectories(path);
+        if (!Files.exists(DIRECTORY_PATH)) {
+            Files.createDirectories(DIRECTORY_PATH);
         }
     }
 
@@ -44,7 +44,6 @@ public class Storage {
             // Check if directory exists first
             ensureDirectoryExists();
 
-            Path filePath = Paths.get(FILE_PATH);
             List<String> lines = new ArrayList<>();
 
             // Convert each task to string format
@@ -53,7 +52,7 @@ public class Storage {
             }
 
             // Write to file
-            Files.write(filePath, lines);
+            Files.write(FILE_PATH, lines);
         } catch (IOException e) {
             System.out.println("Error saving tasks: " + e.getMessage());
         }
@@ -67,13 +66,12 @@ public class Storage {
     public static ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
-            Path filePath = Paths.get(FILE_PATH);
-            if (!Files.exists(filePath)) {
+            if (!Files.exists(FILE_PATH)) {
                 return tasks;
             }
 
             // Read the tasks from the string file
-            List<String> lines = Files.readAllLines(filePath);
+            List<String> lines = Files.readAllLines(FILE_PATH);
             for (int i = 0; i < lines.size(); i++) {
                 // Convert the string to task object
                 Task currTask =  parseTaskFromString(lines.get(i));
@@ -116,7 +114,7 @@ public class Storage {
      *
      * @return Task object by reading the strings in the file.
      */
-    private static Task parseTaskFromString(String line) {
+    private static Task parseTaskFromString(String line) throws TweetyException {
         // Split the string input into its type, isDone and description
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
@@ -137,12 +135,16 @@ public class Storage {
                 // Fallthrough
             case "D":
                 if (parts.length < 4) return null;
-                Deadline deadline = new Deadline(description, parts[3]);
-                if (isDone) {
-                    deadline.markAsDone();
+                try {
+                    Deadline deadline = new Deadline(description, parts[3]);
+                    if (isDone) {
+                        deadline.markAsDone();
+                    }
+                    return deadline;
+                    // Fallthrough
+                } catch (TweetyException e) {
+                    System.out.println(e.getMessage());
                 }
-                return deadline;
-                // Fallthrough
             case "E":
                 if (parts.length < 5) return null;
                 Event event = new Event(description, parts[4], parts[5]);

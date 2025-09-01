@@ -10,7 +10,6 @@ import tweety.tasks.Event;
 import tweety.tasks.Task;
 import tweety.tasks.ToDo;
 
-
 /**
  * Main class for the Tweety application.
  * Handles user input and manages tasks including todos, deadlines, and events.
@@ -121,7 +120,7 @@ public class Tweety {
         // Print Response to marking of tasks
         System.out.println(FORMATTING_LINE);
         System.out.println(FORMATTING_GAP_DEFAULT + "Nice! I've marked this task as done:");
-        System.out.println("          " + task.getStatusIcon() + " " + task.getDescription());
+        System.out.println("          " + task.getStatusIcon() + " " + task);
         System.out.println(FORMATTING_LINE);
     }
 
@@ -145,7 +144,7 @@ public class Tweety {
         // Print response to marking of tasks
         System.out.println(FORMATTING_LINE);
         System.out.println(FORMATTING_GAP_DEFAULT + "OK, I've marked this task as not done yet:");
-        System.out.println("          " + task.getStatusIcon() + " " + task.getDescription());
+        System.out.println("          " + task.getStatusIcon() + " " + task);
         System.out.println(FORMATTING_LINE);
     }
 
@@ -198,7 +197,7 @@ public class Tweety {
         System.out.println(FORMATTING_GAP_DEFAULT + "Here are the tasks in your list:");
         for (int i = 0; i < taskCount; i++) {
             Task currTask = tasks.get(i);
-            System.out.println(FORMATTING_GAP_DEFAULT + (i + 1) + ". " + currTask.toString());
+            System.out.println(FORMATTING_GAP_DEFAULT + (i + 1) + ". " + currTask);
         }
         System.out.println(FORMATTING_LINE);
     }
@@ -275,14 +274,14 @@ public class Tweety {
         if (userInput.length() <= 8) {
             throw new TweetyException("Deadline description cannot be empty.\n"
                     + FORMATTING_GAP_DEFAULT
-                    + "Please follow this format: e.g. deadline borrow book /by Sunday");
+                    + "Please follow this format: e.g. deadline borrow book /by yyyy-mm-dd");
         }
 
         String[] parts = userInput.substring(8).split("/by", 2);
         if (parts[0].trim().isEmpty() || !userInput.contains("/by")) {
             throw new TweetyException("Deadline description is of invalid format.\n"
                     + FORMATTING_GAP_DEFAULT
-                    + "Please follow this format: e.g. deadline borrow book /by Sunday");
+                    + "Please follow this format: e.g. deadline borrow book /by yyyy-mm-dd");
         }
 
         String description = parts[0].trim();
@@ -301,7 +300,7 @@ public class Tweety {
         if (addedTask != null) {
             System.out.println(FORMATTING_LINE);
             System.out.println(FORMATTING_GAP_DEFAULT + "Got it. I've added this task:");
-            System.out.println("          " + addedTask.toString());
+            System.out.println("          " + addedTask);
             System.out.println(FORMATTING_GAP_DEFAULT + "Now you have " + (taskCount + 1)
                     + " tasks in the list");
             System.out.println(FORMATTING_LINE);
