@@ -64,6 +64,14 @@ public class Tweety {
         ui.closeScanner();
     }
 
+    /**
+     * Executes the given command and determines if the application should exit.
+     * Delegates command execution to the command object and checks for exit condition.
+     *
+     * @param command The command to execute.
+     * @return True if the application should exit after this command, false otherwise.
+     * @throws TweetyException If command execution fails.
+     */
     private boolean executeCommand(Command command) throws TweetyException {
         command.execute(tasks, ui, storage);
         return command.isExit();

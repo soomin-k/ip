@@ -125,11 +125,10 @@ public class Parser {
                     + FORMATTING_GAP_DEFAULT
                     + "Please follow this format: e.g. deadline borrow book /by yyyy-mm-dd");
         }
-
         String description = parts[0].trim();
         String by = parts[1].trim();
-        return new DeadlineCommand(description, by);
 
+        return new DeadlineCommand(description, by);
     }
 
     /**
@@ -153,10 +152,10 @@ public class Parser {
                     + FORMATTING_GAP_DEFAULT
                     + "Please follow this format: e.g. event project meeting /from Mon 2pm /to 4pm");
         }
-
         String description = parts[0].trim();
         String from = parts[1].trim();
         String to = parts[2].trim();
+
         return new EventCommand(description, from, to);
     }
 
@@ -167,6 +166,7 @@ public class Parser {
                     + FORMATTING_GAP_DEFAULT
                     + "Please follow this format: e.g. find read");
         }
+
         return new FindCommand(keyword);
     }
 
