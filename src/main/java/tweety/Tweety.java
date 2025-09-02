@@ -13,14 +13,14 @@ import tweety.ui.Ui;
  */
 public class Tweety {
 
-    private static Storage storage;
-    private static TaskList tasks;
-    private static Ui ui;
+    private Storage storage;
+    private TaskList tasks;
+    private Ui ui;
 
     public Tweety() {
-        Tweety.ui = new Ui();
-        Tweety.storage = new Storage();
-        Tweety.tasks = new TaskList(Storage.loadTasks());
+        this.ui = new Ui();
+        this.storage = new Storage();
+        this.tasks = new TaskList(storage.loadTasks());
     }
 
     public static void main(String[] args) {
@@ -32,20 +32,16 @@ public class Tweety {
      */
     public void run() {
 
-        handleIntroCommand();
+        ui.printWelcomeMessage();
 
-        // Handle each of the userInput commands
-        while (true) {
+        boolean isExit = false;
 
+        while (!isExit) {
             try {
-                // Read the userInput
                 Parser parser = new Parser();
                 String userInput = ui.readCommand();
                 Command command = parser.parseCommand(userInput);
-
-                if (executeCommand(command)) {
-                    break; // Exit the loop if bye command was executed
-                }
+                isExit = executeCommand(command);
             } catch (TweetyException e) {
                 ui.printErrorMessage(e);
             }
@@ -54,109 +50,7 @@ public class Tweety {
     }
 
     private boolean executeCommand(Command command) throws TweetyException {
-        switch (command.getType()) {
-            case MARK:
-                handleMarkCommand(command.getTaskNumber());
-                break;
-            case UNMARK:
-                handleUnmarkCommand(command.getTaskNumber());
-                break;
-            case DELETE:
-                handleDeleteCommand(command.getTaskNumber());
-                break;
-            case LIST:
-                handleListCommand();
-                break;
-            case BYE:
-                handleExitCommand();
-                return true;
-            case EVENT:
-                handleEventCommand(command);
-                break;
-            case TODO:
-                handleTodoCommand(command);
-                break;
-            case DEADLINE:
-                handleDeadlineCommand(command);
-                break;
-            case INVALID:
-                throw new TweetyException("Invalid command. Please try again.");
-        }
-        return false;
+        command.execute(tasks, ui, storage);
+        return command.isExit();
     }
-
-
-    private static void handleMarkCommand(int taskNumber)
-            throws TweetyException {
-
-        Task markedTask = tasks.markTask(taskNumber);
-
-        // Save the task
-        Storage.saveTasks(tasks);
-
-        ui.printMarkedTask(markedTask);
-    }
-
-    private static void handleUnmarkCommand(int taskNumber)
-            throws TweetyException {
-
-        Task unmarkedTask = tasks.unmarkTask(taskNumber);
-
-        // Save the task
-        Storage.saveTasks(tasks);
-
-        ui.printUnmarkedTask(unmarkedTask);
-    }
-
-
-    private static void handleDeleteCommand(int taskNumber)
-            throws TweetyException {
-
-        Task deletedTask = tasks.deleteTask(taskNumber);
-
-        // Save the task
-        Storage.saveTasks(tasks);
-
-        ui.printDeletedTask(deletedTask, tasks.getTaskCount());
-    }
-
-    private static void handleIntroCommand() {
-        ui.printWelcomeMessage();
-    }
-
-
-    private static void handleListCommand()
-            throws TweetyException {
-        // Print the list of tasks
-        ui.printTaskList(tasks);
-    }
-
-    private static void handleExitCommand() {
-        // Save the tasks before exiting
-        Storage.saveTasks(tasks);
-        ui.printExitMessage();
-    }
-
-
-    private static void handleEventCommand(Command command) throws TweetyException{
-        Task newTask = new Event(command.getDescription(), command.getFrom(), command.getTo());
-        tasks.addTask(newTask);
-        Storage.saveTasks(tasks);
-        ui.printAddedTask(newTask, tasks.getTaskCount());
-    }
-
-    private static void handleTodoCommand(Command command) throws TweetyException {
-        Task newTask = new ToDo(command.getDescription());
-        tasks.addTask(newTask);
-        Storage.saveTasks(tasks);
-        ui.printAddedTask(newTask, tasks.getTaskCount());
-    }
-
-    private static void handleDeadlineCommand(Command command) throws TweetyException {
-        Task newTask = new Deadline(command.getDescription(), command.getBy());
-        tasks.addTask(newTask);
-        Storage.saveTasks(tasks);
-        ui.printAddedTask(newTask, tasks.getTaskCount());
-    }
-
 }
