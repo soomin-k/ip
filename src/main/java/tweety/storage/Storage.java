@@ -23,19 +23,25 @@ import tweety.tasks.ToDo;
  * Handles storage operations for tasks such as saving to and loading from file.
  */
 public class Storage {
-    private static final Path FILE_PATH = Paths.get("data/Tweety.txt");
-    private static final Path DIRECTORY_PATH = Paths.get("data/");
 
-    /**
-     * Checks if directory for the storage file exists.
-     *
-     * @throws IOException if no storage file exists in the directory path
-     */
-    private static void ensureDirectoryExists() throws IOException {
-        if (!Files.exists(DIRECTORY_PATH)) {
-            Files.createDirectories(DIRECTORY_PATH);
+    private final Path filePath;
+    private final Path directoryPath;
+
+    public Storage() {
+        this(Paths.get("data/Tweety.txt"), Paths.get("data/"));
+    }
+
+    public Storage(Path filePath, Path directoryPath) {
+        this.filePath = filePath;
+        this.directoryPath = directoryPath;
+    }
+
+    private void ensureDirectoryExists() throws IOException {
+        if (!Files.exists(directoryPath)) {
+            Files.createDirectories(directoryPath);
         }
     }
+
 
     /**
      * Saves the input list of tasks in the storage file.
@@ -43,7 +49,7 @@ public class Storage {
      *
      * @param tasks the list of tasks to be saved.
      */
-    public static void saveTasks(TaskList tasks) {
+    public void saveTasks(TaskList tasks) {
         try {
             // Check if directory exists first
             ensureDirectoryExists();
@@ -56,7 +62,7 @@ public class Storage {
             }
 
             // Write to file
-            Files.write(FILE_PATH, lines);
+            Files.write(filePath, lines);
         } catch (IOException e) {
             System.out.println("Error saving tasks: " + e.getMessage());
         }
@@ -67,15 +73,15 @@ public class Storage {
      *
      * @return a list of tasks loaded from the file.
      */
-    public static ArrayList<Task> loadTasks() {
+    public ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
-            if (!Files.exists(FILE_PATH)) {
+            if (!Files.exists(filePath)) {
                 return tasks;
             }
 
             // Read the tasks from the string file
-            List<String> lines = Files.readAllLines(FILE_PATH);
+            List<String> lines = Files.readAllLines(filePath);
             for (int i = 0; i < lines.size(); i++) {
                 // Convert the string to task object
                 Task currTask =  parseTaskFromString(lines.get(i));
@@ -98,7 +104,7 @@ public class Storage {
      * @param task task to convert to string to be saved in the storage file.
      * @return String of the task.
      */
-    private static String convertTaskToFileString(Task task) {
+    private String convertTaskToFileString(Task task) {
         if (task instanceof ToDo) {
             return "T | " + task.getStatusIcon() + " | " + task.getDescription();
         } else if (task instanceof Deadline) {
@@ -118,7 +124,7 @@ public class Storage {
      *
      * @return Task object by reading the strings in the file.
      */
-    private static Task parseTaskFromString(String line) throws TweetyException {
+    private Task parseTaskFromString(String line) throws TweetyException {
         // Split the string input into its type, isDone and description
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {

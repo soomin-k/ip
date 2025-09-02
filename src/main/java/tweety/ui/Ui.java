@@ -73,6 +73,16 @@ public class Ui {
         System.out.println(FORMATTING_LINE);
     }
 
+    public void printFindTask(TaskList tasks) {
+        System.out.println(FORMATTING_LINE);
+        System.out.println(FORMATTING_GAP_DEFAULT + "Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.getTaskCount(); i++) {
+            Task currTask = tasks.getTask(i);
+            System.out.println(FORMATTING_GAP_DEFAULT + (i + 1) + ". " + currTask);
+        }
+        System.out.println(FORMATTING_LINE);
+    }
+
     public void printErrorMessage(Exception e) {
         System.out.println(FORMATTING_LINE);
         System.out.println(FORMATTING_GAP_DEFAULT + e.getMessage());

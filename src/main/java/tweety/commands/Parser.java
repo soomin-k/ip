@@ -8,43 +8,45 @@ public class Parser {
     public Command parseCommand(String userInput) throws TweetyException {
         userInput = userInput.trim();
 
-        if (userInput.startsWith("mark")) {
-            return parseMarkCommand(userInput);
-        } else if (userInput.startsWith("unmark")) {
-            return parseUnmarkCommand(userInput);
-        } else if (userInput.startsWith("delete")) {
-            return parseDeleteCommand(userInput);
-        } else if (userInput.equals("list")) {
-            return new Command(Command.CommandType.LIST);
-        } else if (userInput.equals("bye")) {
-            return new Command(Command.CommandType.BYE);
-        } else if (userInput.startsWith("todo")) {
-            return parseTodoCommand(userInput);
-        } else if (userInput.startsWith("deadline")) {
-            return parseDeadlineCommand(userInput);
-        } else if (userInput.startsWith("event")) {
-            return parseEventCommand(userInput);
-        } else {
-            return new Command(Command.CommandType.INVALID);
+        String firstWord = userInput.split(" ")[0];
+
+        switch (firstWord) {
+            case "mark":
+                return parseMarkCommand(userInput);
+            case "unmark":
+                return parseUnmarkCommand(userInput);
+            case "delete":
+                return parseDeleteCommand(userInput);
+            case "list":
+                return new ListCommand();
+            case "bye":
+                return new ExitCommand();
+            case "todo":
+                return parseTodoCommand(userInput);
+            case "deadline":
+                return parseDeadlineCommand(userInput);
+            case "event":
+                return parseEventCommand(userInput);
+            case "find":
+                return parseFindCommand(userInput);
+            default:
+                throw new TweetyException("Invalid command. Please try again.");
         }
     }
 
     private Command parseMarkCommand(String userInput) throws TweetyException {
-        Command command = new Command(Command.CommandType.MARK);
-        command.setTaskNumber(getTaskNumber(userInput));
-        return command;
+        int taskNumber = getTaskNumber(userInput);
+        return new MarkCommand(taskNumber);
     }
 
     private Command parseUnmarkCommand(String userInput) throws TweetyException {
-        Command command = new Command(Command.CommandType.UNMARK);
-        command.setTaskNumber(getTaskNumber(userInput));
-        return command;
+        int taskNumber = getTaskNumber(userInput);
+        return new UnmarkCommand(taskNumber);
     }
 
     private Command parseDeleteCommand(String userInput) throws TweetyException {
-        Command command = new Command(Command.CommandType.DELETE);
-        command.setTaskNumber(getTaskNumber(userInput));
-        return command;
+        int taskNumber = getTaskNumber(userInput);
+        return new DeleteCommand(taskNumber);
     }
 
     private Command parseTodoCommand(String userInput) throws TweetyException {
@@ -55,9 +57,7 @@ public class Parser {
                     + "Please follow this format: e.g. todo borrow book");
         }
 
-        Command command = new Command(Command.CommandType.TODO);
-        command.setDescription(description);
-        return command;
+        return new TodoCommand(description);
     }
 
     private Command parseDeadlineCommand(String userInput) throws TweetyException {
@@ -74,10 +74,10 @@ public class Parser {
                     + "Please follow this format: e.g. deadline borrow book /by yyyy-mm-dd");
         }
 
-        Command command = new Command(Command.CommandType.DEADLINE);
-        command.setDescription(parts[0].trim());
-        command.setBy(parts[1].trim());
-        return command;
+        String description = parts[0].trim();
+        String by = parts[1].trim();
+        return new DeadlineCommand(description, by);
+
     }
 
     private Command parseEventCommand(String userInput) throws TweetyException {
@@ -94,11 +94,20 @@ public class Parser {
                     + "Please follow this format: e.g. event project meeting /from Mon 2pm /to 4pm");
         }
 
-        Command command = new Command(Command.CommandType.EVENT);
-        command.setDescription(parts[0].trim());
-        command.setFrom(parts[1].trim());
-        command.setTo(parts[2].trim());
-        return command;
+        String description = parts[0].trim();
+        String from = parts[1].trim();
+        String to = parts[2].trim();
+        return new EventCommand(description, from, to);
+    }
+
+    private Command parseFindCommand(String userInput) throws TweetyException {
+        String keyword = userInput.substring(4).trim();
+        if (keyword.isEmpty()) {
+            throw new TweetyException("keyword cannot be empty.\n"
+                    + FORMATTING_GAP_DEFAULT
+                    + "Please follow this format: e.g. find read");
+        }
+        return new FindCommand(keyword);
     }
 
     private int getTaskNumber(String userInput) throws TweetyException {
