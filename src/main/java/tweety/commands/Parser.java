@@ -1,4 +1,4 @@
-package tweety;
+package tweety.commands;
 
 import tweety.exceptions.TweetyException;
 

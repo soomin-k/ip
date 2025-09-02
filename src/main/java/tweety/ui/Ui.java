@@ -1,5 +1,6 @@
-package tweety;
+package tweety.ui;
 
+import tweety.tasks.TaskList;
 import tweety.tasks.Task;
 
 import java.util.Scanner;
