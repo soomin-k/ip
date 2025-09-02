@@ -42,7 +42,6 @@ public class Storage {
         }
     }
 
-
     /**
      * Saves the input list of tasks in the storage file.
      * Creates the directory structure if it doesn't exist.

@@ -19,12 +19,6 @@ public class Task {
         this.isCompleted = false;
     }
 
-    /**
-     * Returns the status icon representing the completion status of the task.
-     * Returns "[X]" if completed, "[ ]" if not completed.
-     *
-     * @return the status icon string
-     */
     public String getStatusIcon() {
         return isCompleted ? "[X]" : "[ ]";
     }
@@ -33,10 +27,18 @@ public class Task {
         return this.description;
     }
 
+    /**
+     * Marks the task as completed.
+     * IsCompleted is set to true.
+     */
     public void markAsDone() {
         isCompleted = true;
     }
 
+    /**
+     * Unmarks the task.
+     * IsCompleted is set to false.
+     */
     public void unmark() {
         isCompleted = false;
     }

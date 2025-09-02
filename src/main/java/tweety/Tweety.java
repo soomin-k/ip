@@ -21,18 +21,29 @@ public class Tweety {
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a new Tweety application instance.
+     * Initialises the user interface, storage, and task list with previously saved tasks.
+     */
     public Tweety() {
         this.ui = new Ui();
         this.storage = new Storage();
         this.tasks = new TaskList(storage.loadTasks());
     }
 
+    /**
+     * Entry point for the Tweety application.
+     * Creates a new Tweety instance and starts the application.
+     *
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         new Tweety().run();
     }
 
     /**
-     * Main method that runs the Tweety application.
+     * Runs the main application loop.
+     * Displays welcome message and continuously processes user commands until exit.
      */
     public void run() {
 
