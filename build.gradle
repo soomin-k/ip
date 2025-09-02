@@ -35,6 +35,7 @@ application {
 shadowJar {
     archiveBaseName = "tweety"
     archiveClassifier = null
+    archiveFileName = 'tweety.jar'
 }
 
 run{
