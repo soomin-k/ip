@@ -10,10 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tweety.exceptions.TweetyException;
+
+import tweety.TaskList;
+
 import tweety.tasks.Deadline;
 import tweety.tasks.Event;
 import tweety.tasks.Task;
 import tweety.tasks.ToDo;
+
 
 /**
  * Handles storage operations for tasks such as saving to and loading from file.
@@ -39,7 +43,7 @@ public class Storage {
      *
      * @param tasks the list of tasks to be saved.
      */
-    public static void saveTasks(List<Task> tasks) {
+    public static void saveTasks(TaskList tasks) {
         try {
             // Check if directory exists first
             ensureDirectoryExists();
@@ -47,8 +51,8 @@ public class Storage {
             List<String> lines = new ArrayList<>();
 
             // Convert each task to string format
-            for (int i = 0; i < tasks.size(); i++) {
-                lines.add(convertTaskToFileString(tasks.get(i)));
+            for (int i = 0; i < tasks.getTaskCount(); i++) {
+                lines.add(convertTaskToFileString(tasks.getTask(i)));
             }
 
             // Write to file
@@ -147,7 +151,7 @@ public class Storage {
                 }
             case "E":
                 if (parts.length < 5) return null;
-                Event event = new Event(description, parts[4], parts[5]);
+                Event event = new Event(description, parts[3], parts[4]);
                 if (isDone) {
                     event.markAsDone();
                 }
