@@ -1,4 +1,4 @@
-package tweety;
+package tweety.commands;
 
 public class Command {
     public enum CommandType {

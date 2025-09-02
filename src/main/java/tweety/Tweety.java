@@ -1,11 +1,11 @@
 package tweety;
 
+import tweety.commands.Command;
+import tweety.commands.Parser;
 import tweety.exceptions.TweetyException;
 import tweety.storage.Storage;
-import tweety.tasks.Deadline;
-import tweety.tasks.Event;
-import tweety.tasks.Task;
-import tweety.tasks.ToDo;
+import tweety.tasks.*;
+import tweety.ui.Ui;
 
 /**
  * Main class for the Tweety application.

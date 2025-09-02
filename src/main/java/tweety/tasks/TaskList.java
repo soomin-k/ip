@@ -1,8 +1,6 @@
-package tweety;
+package tweety.tasks;
 
 import tweety.exceptions.TweetyException;
-
-import tweety.tasks.Task;
 
 import java.util.ArrayList;
 

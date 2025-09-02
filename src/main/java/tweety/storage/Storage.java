@@ -11,7 +11,7 @@ import java.util.List;
 
 import tweety.exceptions.TweetyException;
 
-import tweety.TaskList;
+import tweety.tasks.TaskList;
 
 import tweety.tasks.Deadline;
 import tweety.tasks.Event;
