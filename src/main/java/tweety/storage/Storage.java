@@ -118,7 +118,7 @@ public class Storage {
      *
      * @return Task object by reading the strings in the file.
      */
-    private static Task parseTaskFromString(String line) throws TweetyException {
+    private static Task parseTaskFromString(String line) {
         // Split the string input into its type, isDone and description
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {

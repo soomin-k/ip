@@ -4,21 +4,47 @@ import tweety.exceptions.TweetyException;
 
 import java.util.ArrayList;
 
+/**
+ * Manages a collection of tasks for the Tweety application.
+ * Provides functionality to add, delete, mark, unmark and retrieve tasks.
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
 
+    /**
+     * Constructs an empty TaskList.
+     * Initialises the task list with an empty ArrayList.
+     */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Constructs a TaskList with existing tasks.
+     * Initialises the task list with the provided ArrayList of tasks.
+     *
+     * @param tasks The existing list of tasks to manage.
+     */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
 
+    /**
+     * Adds a new task to the end of the task list.
+     *
+     * @param task The task to add to the list.
+     */
     public void addTask(Task task) {
         tasks.add(task);
     }
 
+    /**
+     * Removes and returns the task at the specified position.
+     *
+     * @param taskNumber The 1-based index of the task to delete.
+     * @return The deleted task.
+     * @throws TweetyException If the task number is invalid or out of range.
+     */
     public Task deleteTask(int taskNumber) throws TweetyException {
         if (taskNumber < 1 || taskNumber > tasks.size()) {
             throw new TweetyException("Please provide a valid task number.");
@@ -27,6 +53,13 @@ public class TaskList {
         return deletedTask;
     }
 
+    /**
+     * Marks the specified task as completed.
+     *
+     * @param taskNumber The 1-based index of the task to mark as done.
+     * @return The marked task.
+     * @throws TweetyException If the task number is invalid or out of range.
+     */
     public Task markTask(int taskNumber) throws TweetyException {
         if (taskNumber < 1 || taskNumber > tasks.size()) {
             throw new TweetyException("Please provide a valid task number.");
@@ -36,6 +69,13 @@ public class TaskList {
         return task;
     }
 
+    /**
+     * Marks the specified task as not completed.
+     *
+     * @param taskNumber The 1-based index of the task to unmark.
+     * @return The unmarked task.
+     * @throws TweetyException If the task number is invalid or out of range.
+     */
     public Task unmarkTask(int taskNumber) throws TweetyException {
         if (taskNumber < 1 || taskNumber > tasks.size()) {
             throw new TweetyException("Please provide a valid task number.");
