@@ -9,6 +9,7 @@ import tweety.storage.Storage;
 
 import tweety.tasks.TaskList;
 
+import tweety.ui.GuiUi;
 import tweety.ui.Ui;
 
 /**
@@ -20,15 +21,35 @@ public class Tweety {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
+    private Parser parser;
 
     /**
      * Constructs a new Tweety application instance.
      * Initialises the user interface, storage, and task list with previously saved tasks.
      */
     public Tweety() {
-        this.ui = new Ui();
+        this.ui = new GuiUi();
         this.storage = new Storage();
         this.tasks = new TaskList(storage.loadTasks());
+        this.parser = new Parser();
+    }
+
+    public String getResponse(String input) {
+        try {
+            Command command = parser.parseCommand(input);
+
+            // Create a temporary UI to capture output for GUI
+            GuiUi tempUi = new GuiUi();
+
+            // Execute the command
+            command.execute(tasks, tempUi, storage);
+
+            // Return the response from the UI
+            return tempUi.getResponse();
+
+        } catch (TweetyException e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
     /**
@@ -53,7 +74,6 @@ public class Tweety {
 
         while (!isExit) {
             try {
-                Parser parser = new Parser();
                 String userInput = ui.readCommand();
                 Command command = parser.parseCommand(userInput);
                 isExit = executeCommand(command);
