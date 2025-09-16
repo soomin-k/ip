@@ -144,6 +144,19 @@ public class Ui {
     }
 
     /**
+     * Displays confirmation message for a edited task.
+     * Shows the task that was edited with formatted borders.
+     *
+     * @param editedTask The task that was edited.
+     */
+    public void printEditedTask(Task editedTask) {
+        System.out.println(FORMATTING_LINE);
+        System.out.println(FORMATTING_GAP_DEFAULT + "Nice! I've edited this task:");
+        System.out.println("          " + editedTask);
+        System.out.println(FORMATTING_LINE);
+    }
+
+    /**
      * Displays an error message in a formatted manner.
      * Shows the exception message within formatted borders for consistent error presentation.
      *

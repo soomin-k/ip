@@ -82,6 +82,12 @@ public class GuiUi extends Ui {
     }
 
     @Override
+    public void printEditedTask(Task editedTask) {
+        response.append("Nice! I've edited this task:\n");
+        response.append("  ").append(editedTask).append("\n");
+    }
+
+    @Override
     public void printErrorMessage(Exception e) {
         response.append(e.getMessage()).append("\n");
     }

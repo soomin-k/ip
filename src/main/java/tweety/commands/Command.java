@@ -20,7 +20,7 @@ public abstract class Command {
      * Each type represents a specific action that can be performed on tasks.
      */
     public enum CommandType {
-        MARK, UNMARK, DELETE, LIST, BYE, EVENT, TODO, DEADLINE, FIND
+        MARK, UNMARK, DELETE, LIST, BYE, EVENT, TODO, DEADLINE, FIND, EDIT
     }
 
     private CommandType type;
