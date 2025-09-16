@@ -1,5 +1,7 @@
 package tweety.tasks;
 
+import tweety.exceptions.TweetyException;
+
 /**
  * Represents Event task with specific start and end date/time.
  * Extends the Task class to include Event functionality.
@@ -19,6 +21,36 @@ public class Event extends Task {
         super(description);
         this.from = from;
         this.to = to;
+    }
+
+    @Override
+    public String getType() {
+        return "event";
+    }
+
+    @Override
+    public void editField(String field, String newValue) throws TweetyException {
+        switch (field) {
+            case "description":
+                setDescription(newValue);
+                break;
+            case "from":
+                setFrom(newValue);
+                break;
+            case "to":
+                setTo(newValue);
+                break;
+            default:
+                throw new TweetyException("Event tasks can edit description, from or to");
+        }
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public void setTo(String newTo) {
+        this.to = newTo;
     }
 
     @Override

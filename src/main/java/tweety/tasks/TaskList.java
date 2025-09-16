@@ -54,6 +54,21 @@ public class TaskList {
     }
 
     /**
+     * Edits and returns the task at the specified position.
+     *
+     * @param taskNumber The 1-based index of the task to edit.
+     * @param field The field to be edited.
+     * @param newValue The new value to the field.
+     * @throws InvalidTaskNumberException If the task number is invalid or out of range.
+     */
+    public Task editTask(int taskNumber, String field, String newValue) throws TweetyException {
+        Task task = retrieveTask(taskNumber);
+        task.editField(field, newValue);
+        return task;
+    }
+
+
+    /**
      * Marks the specified task as completed.
      *
      * @param taskNumber The 1-based index of the task to mark as done.

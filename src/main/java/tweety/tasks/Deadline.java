@@ -30,6 +30,29 @@ public class Deadline extends Task {
         }
     }
 
+    @Override
+    public String getType() {
+        return "deadline";
+    }
+
+    @Override
+    public void editField(String field, String newValue) throws TweetyException {
+        switch (field) {
+            case "description":
+                setDescription(newValue);
+                break;
+            case "deadline":
+                setDeadline(newValue);
+                break;
+            default:
+                throw new TweetyException("Deadline tasks can edit description or deadline");
+        }
+    }
+
+    public void setDeadline(String by) {
+        this.deadline = LocalDate.parse(by);
+    }
+
    @Override
     public String toString() {
         return "[D]" + getStatusIcon() + " " + getDescription() + " (by: "
