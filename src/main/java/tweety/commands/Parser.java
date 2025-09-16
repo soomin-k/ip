@@ -35,7 +35,10 @@ public class Parser {
      * @throws TweetyException If the command format is invalid.
      */
     public Command parseCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         userInput = userInput.trim();
+        assert !userInput.isEmpty() : "userInput should not be empty after trimming";
 
         String firstWord = userInput.split(" ")[0];
 
@@ -72,6 +75,8 @@ public class Parser {
      * @throws TweetyException If the task number is invalid or missing.
      */
     private Command parseMarkCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         int taskNumber = getTaskNumber(userInput);
         return new MarkCommand(taskNumber);
     }
@@ -85,6 +90,8 @@ public class Parser {
      * @throws TweetyException If the task number is invalid or missing.
      */
     private Command parseUnmarkCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         int taskNumber = getTaskNumber(userInput);
         return new UnmarkCommand(taskNumber);
     }
@@ -98,6 +105,8 @@ public class Parser {
      * @throws TweetyException If the task number is invalid or missing.
      */
     private Command parseDeleteCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         int taskNumber = getTaskNumber(userInput);
         return new DeleteCommand(taskNumber);
     }
@@ -115,6 +124,8 @@ public class Parser {
      * @throws TweetyException If the description is empty or missing.
      */
     private Command parseTodoCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         String description = getDescription(userInput, TODO_COMMAND_LENGTH);
         if (description.isEmpty()) {
             throw new EmtpyDescriptionException("todo borrow book", TODO_COMMAND);
@@ -132,10 +143,14 @@ public class Parser {
      * @throws TweetyException If the format is invalid, description is empty, or /by is missing.
      */
     private Command parseDeadlineCommand(String userInput) throws TweetyException {
-        String descriptions = getDescription(userInput, DEADLINE_COMMAND_LENGTH);
+        assert userInput != null : "userInput should not be null";
+        assert userInput.startsWith("deadline") : "userInput should start with 'deadline'";
+
         if (userInput.length() <= 8) {
             throw new EmtpyDescriptionException("deadline borrow book /by yyyy-mm-dd", DEADLINE_COMMAND);
         }
+
+        String descriptions = getDescription(userInput, DEADLINE_COMMAND_LENGTH);
 
         String[] parts = descriptions.split("/by", 2);
         String description = parts[0].trim();
@@ -158,11 +173,15 @@ public class Parser {
      * @throws TweetyException If the format is invalid, description is empty, or /from or /to is missing.
      */
     private Command parseEventCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+        assert userInput.startsWith("event") : "userInput should start with 'event'";
+
         if (userInput.length() <= 5) {
             throw new EmtpyDescriptionException("event project meeting /from Mon 2pm /to 4pm", EVENT_COMMAND);
         }
 
-        String[] parts = getDescription(userInput, EVENT_COMMAND_LENGTH).split("/from|/to");
+        String descriptions = getDescription(userInput, EVENT_COMMAND_LENGTH);
+        String[] parts = descriptions.split("/from|/to");
         String description = parts[0].trim();
 
         if (description.isEmpty() || !userInput.contains("/from") || !userInput.contains("/to")) {
@@ -176,7 +195,9 @@ public class Parser {
     }
 
     private Command parseFindCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
         String keyword = getDescription(userInput, FIND_COMMAND_LENGTH);
+
         if (keyword.isEmpty()) {
             throw new InvalidInputFormatException("find read", FIND_COMMAND);
         }
@@ -193,6 +214,8 @@ public class Parser {
      * @throws TweetyException If the task number is not a valid integer or is missing.
      */
     private int getTaskNumber(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         try {
             String taskNumber = userInput.substring(userInput.indexOf(" ") + 1).trim();
             return Integer.parseInt(taskNumber);

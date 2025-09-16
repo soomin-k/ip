@@ -32,6 +32,9 @@ public class Storage {
     }
 
     public Storage(Path filePath, Path directoryPath) {
+        assert filePath != null : "filePath should not be null";
+        assert directoryPath != null : "directoryPath should not be null";
+
         this.filePath = filePath;
         this.directoryPath = directoryPath;
     }
@@ -141,7 +144,6 @@ public class Storage {
                     todo.markAsDone();
                 }
                 return todo;
-                // Fallthrough
             case "D":
                 if (parts.length < 4) return null;
                 try {
@@ -150,9 +152,9 @@ public class Storage {
                         deadline.markAsDone();
                     }
                     return deadline;
-                    // Fallthrough
                 } catch (TweetyException e) {
                     System.out.println(e.getMessage());
+                    return null;
                 }
             case "E":
                 if (parts.length < 5) return null;
@@ -161,10 +163,8 @@ public class Storage {
                     event.markAsDone();
                 }
                 return event;
-                // Fallthrough
             default:
                 return null;
-                // Fallthrough
         }
     }
 }
