@@ -18,7 +18,11 @@ public class Parser {
      * @throws TweetyException If the command format is invalid.
      */
     public Command parseCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         userInput = userInput.trim();
+
+        assert !userInput.isEmpty() : "userInput should not be empty after trimming";
 
         String firstWord = userInput.split(" ")[0];
 
@@ -55,6 +59,8 @@ public class Parser {
      * @throws TweetyException If the task number is invalid or missing.
      */
     private Command parseMarkCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         int taskNumber = getTaskNumber(userInput);
         return new MarkCommand(taskNumber);
     }
@@ -68,6 +74,8 @@ public class Parser {
      * @throws TweetyException If the task number is invalid or missing.
      */
     private Command parseUnmarkCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         int taskNumber = getTaskNumber(userInput);
         return new UnmarkCommand(taskNumber);
     }
@@ -81,6 +89,8 @@ public class Parser {
      * @throws TweetyException If the task number is invalid or missing.
      */
     private Command parseDeleteCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         int taskNumber = getTaskNumber(userInput);
         return new DeleteCommand(taskNumber);
     }
@@ -94,6 +104,8 @@ public class Parser {
      * @throws TweetyException If the description is empty or missing.
      */
     private Command parseTodoCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         String description = userInput.substring(4).trim();
         if (description.isEmpty()) {
             throw new TweetyException("Todo description cannot be empty.\n"
@@ -113,6 +125,9 @@ public class Parser {
      * @throws TweetyException If the format is invalid, description is empty, or /by is missing.
      */
     private Command parseDeadlineCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+        assert userInput.startsWith("deadline") : "userInput should start with 'deadline'";
+
         if (userInput.length() <= 8) {
             throw new TweetyException("Deadline description cannot be empty.\n"
                     + FORMATTING_GAP_DEFAULT
@@ -120,6 +135,8 @@ public class Parser {
         }
 
         String[] parts = userInput.substring(8).split("/by", 2);
+        assert parts != null : "split should never return null";
+
         if (parts[0].trim().isEmpty() || !userInput.contains("/by")) {
             throw new TweetyException("Deadline description is of invalid format.\n"
                     + FORMATTING_GAP_DEFAULT
@@ -140,6 +157,9 @@ public class Parser {
      * @throws TweetyException If the format is invalid, description is empty, or /from or /to is missing.
      */
     private Command parseEventCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+        assert userInput.startsWith("event") : "userInput should start with 'event'";
+
         if (userInput.length() <= 5) {
             throw new TweetyException("Event description cannot be empty.\n"
                     + FORMATTING_GAP_DEFAULT
@@ -160,6 +180,8 @@ public class Parser {
     }
 
     private Command parseFindCommand(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         String keyword = userInput.substring(4).trim();
         if (keyword.isEmpty()) {
             throw new TweetyException("keyword cannot be empty.\n"
@@ -179,6 +201,8 @@ public class Parser {
      * @throws TweetyException If the task number is not a valid integer or is missing.
      */
     private int getTaskNumber(String userInput) throws TweetyException {
+        assert userInput != null : "userInput should not be null";
+
         try {
             String taskNumber = userInput.substring(userInput.indexOf(" ") + 1).trim();
             return Integer.parseInt(taskNumber);
