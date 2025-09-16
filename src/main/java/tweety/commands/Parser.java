@@ -1,6 +1,8 @@
 package tweety.commands;
 
+import tweety.exceptions.EmtpyDescriptionException;
 import tweety.exceptions.TweetyException;
+import tweety.exceptions.InvalidInputFormatException;
 
 /**
  * Parses user input strings into Command objects for the Tweety application.
@@ -8,6 +10,21 @@ import tweety.exceptions.TweetyException;
  */
 public class Parser {
     private static final String FORMATTING_GAP_DEFAULT = "     ";
+
+    private static final int TODO_COMMAND_LENGTH = 4;
+    private static final int EVENT_COMMAND_LENGTH = 5;
+    private static final int DEADLINE_COMMAND_LENGTH = 8;
+    private static final int FIND_COMMAND_LENGTH = 4;
+
+    private static final String MARK_COMMAND = "mark";
+    private static final String UNMARK_COMMAND = "unmark";
+    private static final String DELETE_COMMAND = "delete";
+    private static final String LIST_COMMAND = "list";
+    private static final String BYE_COMMAND = "bye";
+    private static final String TODO_COMMAND = "todo";
+    private static final String DEADLINE_COMMAND = "deadline";
+    private static final String EVENT_COMMAND = "event";
+    private static final String FIND_COMMAND = "find";
 
     /**
      * Parses the user input string and returns the corresponding Command object.
@@ -21,29 +38,28 @@ public class Parser {
         assert userInput != null : "userInput should not be null";
 
         userInput = userInput.trim();
-
         assert !userInput.isEmpty() : "userInput should not be empty after trimming";
 
         String firstWord = userInput.split(" ")[0];
 
         switch (firstWord) {
-            case "mark":
+            case MARK_COMMAND:
                 return parseMarkCommand(userInput);
-            case "unmark":
+            case UNMARK_COMMAND:
                 return parseUnmarkCommand(userInput);
-            case "delete":
+            case DELETE_COMMAND:
                 return parseDeleteCommand(userInput);
-            case "list":
+            case LIST_COMMAND:
                 return new ListCommand();
-            case "bye":
+            case BYE_COMMAND:
                 return new ExitCommand();
-            case "todo":
+            case TODO_COMMAND:
                 return parseTodoCommand(userInput);
-            case "deadline":
+            case DEADLINE_COMMAND:
                 return parseDeadlineCommand(userInput);
-            case "event":
+            case EVENT_COMMAND:
                 return parseEventCommand(userInput);
-            case "find":
+            case FIND_COMMAND:
                 return parseFindCommand(userInput);
             default:
                 throw new TweetyException("Invalid command. Please try again.");
@@ -95,6 +111,10 @@ public class Parser {
         return new DeleteCommand(taskNumber);
     }
 
+    private String getDescription(String userInput, int commandLength) {
+        return userInput.substring(commandLength).trim();
+    }
+
     /**
      * Parses a todo command and extracts the task description.
      * Expected format: "todo [description]"
@@ -106,11 +126,9 @@ public class Parser {
     private Command parseTodoCommand(String userInput) throws TweetyException {
         assert userInput != null : "userInput should not be null";
 
-        String description = userInput.substring(4).trim();
+        String description = getDescription(userInput, TODO_COMMAND_LENGTH);
         if (description.isEmpty()) {
-            throw new TweetyException("Todo description cannot be empty.\n"
-                    + FORMATTING_GAP_DEFAULT
-                    + "Please follow this format: e.g. todo borrow book");
+            throw new EmtpyDescriptionException("todo borrow book", TODO_COMMAND);
         }
 
         return new TodoCommand(description);
@@ -129,20 +147,18 @@ public class Parser {
         assert userInput.startsWith("deadline") : "userInput should start with 'deadline'";
 
         if (userInput.length() <= 8) {
-            throw new TweetyException("Deadline description cannot be empty.\n"
-                    + FORMATTING_GAP_DEFAULT
-                    + "Please follow this format: e.g. deadline borrow book /by yyyy-mm-dd");
+            throw new EmtpyDescriptionException("deadline borrow book /by yyyy-mm-dd", DEADLINE_COMMAND);
         }
 
-        String[] parts = userInput.substring(8).split("/by", 2);
-        assert parts != null : "split should never return null";
+        String descriptions = getDescription(userInput, DEADLINE_COMMAND_LENGTH);
 
-        if (parts[0].trim().isEmpty() || !userInput.contains("/by")) {
-            throw new TweetyException("Deadline description is of invalid format.\n"
-                    + FORMATTING_GAP_DEFAULT
-                    + "Please follow this format: e.g. deadline borrow book /by yyyy-mm-dd");
-        }
+        String[] parts = descriptions.split("/by", 2);
         String description = parts[0].trim();
+
+        if (description.isEmpty() || !userInput.contains("/by")) {
+            throw new InvalidInputFormatException("deadline borrow book /by yyyy-mm-dd", DEADLINE_COMMAND);
+        }
+
         String by = parts[1].trim();
 
         return new DeadlineCommand(description, by);
@@ -161,18 +177,17 @@ public class Parser {
         assert userInput.startsWith("event") : "userInput should start with 'event'";
 
         if (userInput.length() <= 5) {
-            throw new TweetyException("Event description cannot be empty.\n"
-                    + FORMATTING_GAP_DEFAULT
-                    + "Please follow this format: e.g. event project meeting /from Mon 2pm /to 4pm");
+            throw new EmtpyDescriptionException("event project meeting /from Mon 2pm /to 4pm", EVENT_COMMAND);
         }
 
-        String[] parts = userInput.substring(5).split("/from|/to");
-        if (parts[0].trim().isEmpty() || !userInput.contains("/from") || !userInput.contains("/to")) {
-            throw new TweetyException("Event description is of invalid format.\n"
-                    + FORMATTING_GAP_DEFAULT
-                    + "Please follow this format: e.g. event project meeting /from Mon 2pm /to 4pm");
-        }
+        String descriptions = getDescription(userInput, EVENT_COMMAND_LENGTH);
+        String[] parts = descriptions.split("/from|/to");
         String description = parts[0].trim();
+
+        if (description.isEmpty() || !userInput.contains("/from") || !userInput.contains("/to")) {
+            throw new InvalidInputFormatException("event project meeting /from Mon 2pm /to 4pm", EVENT_COMMAND);
+        }
+
         String from = parts[1].trim();
         String to = parts[2].trim();
 
@@ -181,12 +196,10 @@ public class Parser {
 
     private Command parseFindCommand(String userInput) throws TweetyException {
         assert userInput != null : "userInput should not be null";
+        String keyword = getDescription(userInput, FIND_COMMAND_LENGTH);
 
-        String keyword = userInput.substring(4).trim();
         if (keyword.isEmpty()) {
-            throw new TweetyException("keyword cannot be empty.\n"
-                    + FORMATTING_GAP_DEFAULT
-                    + "Please follow this format: e.g. find read");
+            throw new InvalidInputFormatException("find read", FIND_COMMAND);
         }
 
         return new FindCommand(keyword);

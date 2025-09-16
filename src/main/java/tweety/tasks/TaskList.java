@@ -1,5 +1,6 @@
 package tweety.tasks;
 
+import tweety.exceptions.InvalidTaskNumberException;
 import tweety.exceptions.TweetyException;
 
 import java.util.ArrayList;
@@ -43,14 +44,13 @@ public class TaskList {
      *
      * @param taskNumber The 1-based index of the task to delete.
      * @return The deleted task.
-     * @throws TweetyException If the task number is invalid or out of range.
+     * @throws InvalidTaskNumberException If the task number is invalid or out of range.
      */
-    public Task deleteTask(int taskNumber) throws TweetyException {
+    public Task deleteTask(int taskNumber) throws InvalidTaskNumberException {
         if (taskNumber < 1 || taskNumber > tasks.size()) {
-            throw new TweetyException("Please provide a valid task number.");
+            throw new InvalidTaskNumberException();
         }
-        Task deletedTask = tasks.remove(taskNumber - 1);
-        return deletedTask;
+        return tasks.remove(taskNumber - 1);
     }
 
     /**
@@ -58,13 +58,10 @@ public class TaskList {
      *
      * @param taskNumber The 1-based index of the task to mark as done.
      * @return The marked task.
-     * @throws TweetyException If the task number is invalid or out of range.
+     * @throws InvalidTaskNumberException If the task number is invalid or out of range.
      */
-    public Task markTask(int taskNumber) throws TweetyException {
-        if (taskNumber < 1 || taskNumber > tasks.size()) {
-            throw new TweetyException("Please provide a valid task number.");
-        }
-        Task task = tasks.get(taskNumber - 1);
+    public Task markTask(int taskNumber) throws InvalidTaskNumberException {
+        Task task = retrieveTask(taskNumber);
         task.markAsDone();
         return task;
     }
@@ -74,15 +71,27 @@ public class TaskList {
      *
      * @param taskNumber The 1-based index of the task to unmark.
      * @return The unmarked task.
-     * @throws TweetyException If the task number is invalid or out of range.
+     * @throws InvalidTaskNumberException If the task number is invalid or out of range.
      */
-    public Task unmarkTask(int taskNumber) throws TweetyException {
-        if (taskNumber < 1 || taskNumber > tasks.size()) {
-            throw new TweetyException("Please provide a valid task number.");
-        }
-        Task task = tasks.get(taskNumber - 1);
+    public Task unmarkTask(int taskNumber) throws InvalidTaskNumberException {
+        Task task = retrieveTask(taskNumber);
         task.unmark();
         return task;
+    }
+
+    /**
+     * Helper method to check and retrieve task with taskNumber
+     *
+     * @param taskNumber The 1-based index of the task to unmark.
+     * @return Task that is allocated to taskNumber
+     * @throws InvalidTaskNumberException If the task number is invalid or out of range.
+     */
+    public Task retrieveTask(int taskNumber) throws InvalidTaskNumberException{
+        if (taskNumber < 1 || taskNumber > tasks.size()) {
+            throw new InvalidTaskNumberException();
+        }
+
+        return tasks.get(taskNumber - 1);
     }
 
     public Task getTask(int taskNumber) {
