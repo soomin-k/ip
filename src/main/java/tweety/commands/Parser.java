@@ -9,7 +9,6 @@ import tweety.exceptions.InvalidInputFormatException;
  * Handles various command types including mark, unmark, delete, list, bye, find, todo, deadline, and event commands.
  */
 public class Parser {
-    private static final String FORMATTING_GAP_DEFAULT = "     ";
 
     private static final int TODO_COMMAND_LENGTH = 4;
     private static final int EVENT_COMMAND_LENGTH = 5;
@@ -148,7 +147,8 @@ public class Parser {
      */
     private void validateEditFormat(String[] parts) throws TweetyException {
         if (parts.length < 3) {
-            throw new InvalidInputFormatException("edit 2 description eat", EDIT_COMMAND);
+            throw new InvalidInputFormatException("edit <task number> <field> <newValue>\n" +
+                    "Valid fields are : description, deadline, from, to. ", EDIT_COMMAND);
         }
     }
 

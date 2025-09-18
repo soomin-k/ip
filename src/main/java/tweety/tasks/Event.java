@@ -23,9 +23,20 @@ public class Event extends Task {
         this.to = to;
     }
 
-    @Override
-    public String getType() {
-        return "event";
+    public String getEventStart() {
+        return this.from;
+    }
+
+    public String getEventEnd() {
+        return this.to;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public void setTo(String newTo) {
+        this.to = newTo;
     }
 
     @Override
@@ -45,25 +56,9 @@ public class Event extends Task {
         }
     }
 
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public void setTo(String newTo) {
-        this.to = newTo;
-    }
-
     @Override
     public String toString() {
         return "[E]" + getStatusIcon() + " " + getDescription()
                 + " (from: " + this.from + " to: " + this.to + ")";
-    }
-
-    public String getEventStart() {
-        return this.from;
-    }
-
-    public String getEventEnd() {
-        return this.to;
     }
 }

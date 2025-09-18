@@ -35,10 +35,6 @@ public abstract class Command {
         this.type = type;
     }
 
-    public CommandType getType() {
-        return type;
-    }
-
     /**
      * Executes this command with the provided application components.
      * Implementation varies based on the specific command type and its required operations.

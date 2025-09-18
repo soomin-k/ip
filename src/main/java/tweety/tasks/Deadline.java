@@ -31,11 +31,6 @@ public class Deadline extends Task {
     }
 
     @Override
-    public String getType() {
-        return "deadline";
-    }
-
-    @Override
     public void editField(String field, String newValue) throws TweetyException {
         switch (field) {
             case "description":
@@ -49,6 +44,10 @@ public class Deadline extends Task {
         }
     }
 
+    public LocalDate getDeadline() {
+        return this.deadline;
+    }
+
     public void setDeadline(String by) {
         this.deadline = LocalDate.parse(by);
     }
@@ -57,9 +56,5 @@ public class Deadline extends Task {
     public String toString() {
         return "[D]" + getStatusIcon() + " " + getDescription() + " (by: "
                 + deadline.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
-    }
-
-    public LocalDate getDeadline() {
-        return this.deadline;
     }
 }

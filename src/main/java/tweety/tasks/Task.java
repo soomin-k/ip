@@ -14,15 +14,20 @@ public abstract class Task {
      * Creates a new task with the specified description.
      * The task is initially marked as not completed.
      *
-     * @param description the description of the task
+     * @param description The description of the task.
      */
     public Task(String description) {
         this.description = description;
         this.isCompleted = false;
     }
 
-    public abstract String getType();
 
+    /**
+     * Abstract method to edit a specific field of an object to newValue
+     *
+     * @param field The field to edit.
+     * @param newValue The newValue to set.
+     */
     public abstract void editField(String field, String newValue) throws TweetyException;
 
     public String getStatusIcon() {

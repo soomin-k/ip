@@ -24,7 +24,11 @@ public class ListCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws TweetyException {
-        ui.printTaskList(tasks);
+        if (tasks.getAllTasks().isEmpty()) {
+            ui.printNoTaskLeft();
+        } else {
+            ui.printTaskList(tasks);
+        }
     }
 
     @Override

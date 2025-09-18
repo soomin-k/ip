@@ -71,6 +71,15 @@ public class Ui {
     }
 
     /**
+     * Displays message when taskList is empty
+     */
+    public void printNoTaskLeft() {
+        System.out.println(FORMATTING_LINE);
+        System.out.println(FORMATTING_GAP_DEFAULT + "Nice! You don't have any tasks due at the moment.");
+        System.out.println(FORMATTING_LINE);
+    }
+
+    /**
      * Displays confirmation message for a newly added task.
      * Shows the added task details and updated task count with formatted borders.
      *

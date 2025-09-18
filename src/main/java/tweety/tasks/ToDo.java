@@ -18,11 +18,6 @@ public class ToDo extends Task {
     }
 
     @Override
-    public String getType() {
-        return "todo";
-    }
-
-    @Override
     public void editField(String field, String newValue) throws TweetyException {
         switch (field) {
             case "description":

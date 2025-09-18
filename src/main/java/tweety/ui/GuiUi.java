@@ -47,6 +47,11 @@ public class GuiUi extends Ui {
     }
 
     @Override
+    public void printNoTaskLeft() {
+        response.append("Nice! You don't have any tasks due at the moment.\n");
+    }
+
+    @Override
     public void printAddedTask(Task addedTask, int taskCount) {
         response.append("Got it. I've added this task:\n");
         response.append("  ").append(addedTask).append("\n");
