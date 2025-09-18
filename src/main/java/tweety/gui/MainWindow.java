@@ -9,7 +9,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import tweety.Tweety;
 import tweety.ui.GuiUi;
-import tweety.ui.Ui;
 
 /**
  * Controller for the main GUI.

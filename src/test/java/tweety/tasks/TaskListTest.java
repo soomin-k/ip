@@ -20,7 +20,7 @@ public class TaskListTest {
         for (int invalidNumber : invalidNumbers) {
             TweetyException exception = assertThrows(TweetyException.class,
                     () -> taskList.deleteTask(invalidNumber));
-            assertEquals("Please provide a valid task number.", exception.getMessage());
+            assertEquals("Aww, hon, please give me a valid task number!", exception.getMessage());
         }
     }
 
@@ -103,7 +103,7 @@ public class TaskListTest {
 
         TweetyException exception = assertThrows(TweetyException.class,
                 () -> taskList.deleteTask(1));
-        assertEquals("Please provide a valid task number.", exception.getMessage());
+        assertEquals("Aww, hon, please give me a valid task number!", exception.getMessage());
     }
 
 
