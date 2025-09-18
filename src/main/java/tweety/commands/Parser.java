@@ -96,7 +96,7 @@ public class Parser {
             case EDIT_COMMAND:
                 return parseEditCommand(userInput);
             default:
-                throw new TweetyException("Invalid command. Please try again.");
+                throw new TweetyException("Oopsie, hon! Invalid command. Please try again.");
         }
     }
 

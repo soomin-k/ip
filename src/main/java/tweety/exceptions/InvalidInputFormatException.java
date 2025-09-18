@@ -15,7 +15,7 @@ public class InvalidInputFormatException extends TweetyException{
      * @param taskName  The name of the task that caused the exception, used to specify which task had the invalid input format.
      */
     public InvalidInputFormatException(String message, String taskName) {
-        super(taskName + " description is of invalid format.\n"
-                + "Please follow this format: e.g. " + message);
+        super(taskName + " description is of invalid format, hon.\n"
+                + "Please follow this format ya: e.g. " + message);
     }
 }

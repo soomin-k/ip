@@ -52,7 +52,8 @@ public class Event extends Task {
                 setTo(newValue);
                 break;
             default:
-                throw new TweetyException("Event tasks can edit description, from or to");
+                throw new TweetyException("Aww, hon! For event tasks, ya can only edit " +
+                        "the description, from, or to!");
         }
     }
 

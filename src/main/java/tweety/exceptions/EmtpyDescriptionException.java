@@ -15,7 +15,7 @@ public class EmtpyDescriptionException extends TweetyException {
      * @param taskName  The name of the task that caused the exception, used to specify which task had an empty description.
      */
     public EmtpyDescriptionException(String message, String taskName) {
-        super(taskName + " description cannot be empty.\n"
-                + "Please follow this format: e.g. " + message);
+        super(taskName + " description cannot be empty, hon.\n"
+                + "Please follow this format ya: e.g. " + message);
     }
 }

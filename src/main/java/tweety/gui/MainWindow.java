@@ -26,6 +26,8 @@ public class MainWindow extends AnchorPane {
 
     private Tweety tweety;
 
+    private GuiUi guiUi;
+
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
     private Image tweetyImage = new Image(this.getClass().getResourceAsStream("/images/tweety.png"));
 
@@ -38,9 +40,12 @@ public class MainWindow extends AnchorPane {
     public void setTweety(Tweety t) {
         tweety = t;
 
-        String welcomeMessage = "Hello! I'm Tweety\nWhat can I do for you?\n";
+        guiUi = new GuiUi();  // Initialize GuiUi instance
+        guiUi.printWelcomeMessage();
+        String welcomeMessage = guiUi.getResponse();
+
         dialogContainer.getChildren().add(
-                DialogBox.getDukeDialog(welcomeMessage, tweetyImage)
+                DialogBox.getTweetyDialog(welcomeMessage, tweetyImage)
         );
     }
 
@@ -54,7 +59,7 @@ public class MainWindow extends AnchorPane {
         String response = tweety.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, tweetyImage)
+                DialogBox.getTweetyDialog(response, tweetyImage)
         );
         userInput.clear();
     }

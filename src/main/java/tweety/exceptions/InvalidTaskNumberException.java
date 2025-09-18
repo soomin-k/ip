@@ -12,6 +12,6 @@ public class InvalidTaskNumberException extends TweetyException {
      * The message prompts the user to provide a valid task number.
      */
     public InvalidTaskNumberException() {
-        super("Please provide a valid task number.");
+        super("Aww, hon, please give me a valid task number!");
     }
 }

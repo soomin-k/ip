@@ -24,7 +24,7 @@ public class ToDo extends Task {
                 setDescription(newValue);
                 break;
             default:
-                throw new TweetyException("Todo tasks can only edit description");
+                throw new TweetyException("Aww, hon! For todo tasks, ya can only edit the description!");
         }
     }
 
