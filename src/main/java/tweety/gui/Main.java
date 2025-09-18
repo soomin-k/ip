@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import tweety.Tweety;
 
 /**
- * A GUI for Duke using FXML.
+ * A GUI for Tweety using FXML.
  */
 public class Main extends Application {
 

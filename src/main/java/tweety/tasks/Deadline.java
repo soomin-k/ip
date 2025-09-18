@@ -25,8 +25,8 @@ public class Deadline extends Task {
         try {
             this.deadline = LocalDate.parse(deadline);
         } catch (DateTimeParseException e) {
-            throw new TweetyException("Invalid date format: " + deadline +
-                    ". Please use yyyy-mm-dd format (e.g. 2025-9-30)");
+            throw new TweetyException("Oopsie, hon! Invalid date format: " + deadline +
+                    ". Aww, Please use yyyy-mm-dd format (e.g. 2025-9-30)");
         }
     }
 
@@ -40,7 +40,8 @@ public class Deadline extends Task {
                 setDeadline(newValue);
                 break;
             default:
-                throw new TweetyException("Deadline tasks can edit description or deadline");
+                throw new TweetyException("Aww, hon! For deadline tasks, ya can only edit " +
+                        "the description or the deadline!");
         }
     }
 
