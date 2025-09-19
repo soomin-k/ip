@@ -22,6 +22,7 @@ public class Tweety {
     private TaskList tasks;
     private Ui ui;
     private Parser parser;
+    private boolean shouldExit = false;
 
     /**
      * Constructs a new Tweety application instance.
@@ -44,12 +45,24 @@ public class Tweety {
             // Execute the command
             command.execute(tasks, tempUi, storage);
 
+            // Check if this command should exit
+            shouldExit = command.isExit();
+
             // Return the response from the UI
             return tempUi.getResponse();
 
         } catch (TweetyException e) {
             return "Error: " + e.getMessage();
         }
+    }
+
+    /**
+     * Returns whether the application should exit after the last command.
+     *
+     * @return True if the application should exit, false otherwise.
+     */
+    public boolean shouldExit() {
+        return shouldExit;
     }
 
     /**
@@ -81,6 +94,7 @@ public class Tweety {
                 ui.printErrorMessage(e);
             }
         }
+
         ui.closeScanner();
     }
 

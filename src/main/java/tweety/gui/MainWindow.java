@@ -1,13 +1,22 @@
 package tweety.gui;
 
+import javafx.animation.PauseTransition;
+
+import javafx.application.Platform;
+
+import javafx.util.Duration;
+
 import javafx.fxml.FXML;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+
 import tweety.Tweety;
+
 import tweety.ui.GuiUi;
 
 /**
@@ -27,7 +36,7 @@ public class MainWindow extends AnchorPane {
 
     private GuiUi guiUi;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/sylvester.png"));
     private Image tweetyImage = new Image(this.getClass().getResourceAsStream("/images/tweety.png"));
 
     @FXML
@@ -61,5 +70,11 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getTweetyDialog(response, tweetyImage)
         );
         userInput.clear();
+
+        if (tweety.shouldExit()) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> Platform.exit());
+            delay.play();
+        }
     }
 }

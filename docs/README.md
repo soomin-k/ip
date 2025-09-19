@@ -1,6 +1,6 @@
 # Tweety User Guide
 **Welcome to Tweety**, your adorable task management assistant!
-This guide will walk you through how to interact with Tweety using commands and what responses you can expect
+This guide will walk you through how to interact with Tweety using commands and what responses you can expect.
 
 ## Product screenshot
 ![User Interface](Ui.png)
@@ -10,7 +10,7 @@ This guide will walk you through how to interact with Tweety using commands and 
 ---
 
 ## Overview
-Tweety is your adorable personal task manager! This friendly chatbot helps you organise your life with todos, deadlines and events - all while speaking in Tweety's signature cute dialect
+Tweety is your adorable personal task manager! This friendly chatbot helps you organise your life with todos, deadlines and events - all while speaking in Tweety's signature cute dialect !
 
 ---
 
