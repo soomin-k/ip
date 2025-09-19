@@ -3,7 +3,7 @@
 This guide will walk you through how to interact with Tweety using commands and what responses you can expect
 
 ## Product screenshot
-![User Interface](ui.png)
+![User Interface](Ui.png)
 
 *Full GUI window of Tweety.*
 
