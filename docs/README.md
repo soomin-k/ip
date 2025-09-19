@@ -69,6 +69,7 @@ Got it! I’ve added dis task faw ya:
 Now ya have 3 tasks in your list, aww!
  
 ````
+---
 
 ### Marking a task as done
 **Command:**  
